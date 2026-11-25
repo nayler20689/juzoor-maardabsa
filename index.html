@@ -280,6 +280,7 @@
   <button class="h-btn bottom-btn" data-tab="add">➕ إضافة</button>
   <button class="h-btn bottom-btn" data-tab="records">📜 السجل (0)</button>
   <button class="h-btn bottom-btn" data-tab="admin">⚙️ الإدارة</button>
+  <button type="button" class="h-btn bottom-btn about-nav-btn" id="openAboutPageBtn">📖 حول التطبيق</button>
 </nav>
 <script>
   // تفعيل أزرار الشريط السفلي
@@ -374,6 +375,136 @@
   };
   firebase.initializeApp(firebaseConfig);
   window.juzoorDb = firebase.firestore();
+
+</script>
+<!-- صفحة حول التطبيق المستقلة -->
+<section class="about-fullpage" id="aboutFullPage" aria-label="حول التطبيق" hidden>
+  <div class="about-fullpage-inner">
+    <div class="about-topbar">
+      <button type="button" class="about-back-btn" id="closeAboutPageBtnTop">← العودة إلى التطبيق</button>
+    </div>
+
+    <article class="about-letter">
+      <div class="about-badge">أرشيف معردبسة • كلمة الوفاء</div>
+      <h1 class="about-main-heading">حول التطبيق</h1>
+
+      <p class="about-paragraph">
+        لم يكن هذا الأرشيف مجرد صفحات وأسماء تُدوَّن، بل هو عهدُ وفاءٍ لأجدادنا الذين ساروا على الأرض قبلاً، وحملوا تعب الأيام وصدق الكلمة، فكانت أسماؤهم وسِيَرهم هي الظلال الوارفة التي نستظلّ بها اليوم. أردتُ أن أجمع شتات الأسماء والروابط العائلية في مكان واحد يجمعنا على المحبة والود، ويجعل كل فردٍ فينا يرى امتداده في إخوته وأبنائه وأبناء عمومته.
+      </p>
+
+      <p class="about-paragraph">
+        وهو كذلك رسالةُ أمانةٍ نكتبها بيد اليوم لتقرأها الأجيال القادمة غداً؛ ليعرف أبناؤنا وأحفادنا من أين بدأت حكايتهم، ومن هم الرجال والنساء الذين مهّدوا الطريق، وكيف تفرّعت الجذور وبقيت متماسكة رغم البعد والسنين. نسأل الله أن يبقى هذا السجل منارةً تحفظ أصلنا، وتصل أرحامنا، وتُبقي ذكرى من رحلوا حاضرةً بالدعاء والوفاء، فلا يُنسى عزيز، ولا يضيع نسب، ولا ينقطع حبلُ الودّ بين الأجيال بإذن الله.
+      </p>
+
+      <div class="about-poetry" dir="rtl">
+        <p class="about-verse">في «مَعَرْدِبْسَةْ» للأجدادِ مآثرٌ *** نسجتْ خيوطَ المجدِ جيلاً إثرَ جيلْ</p>
+        <p class="about-verse">نهدي إلى الأحفادِ سرَّ جذورِنا *** ليظلَّ عهدُ الوصلِ في الدنيا أصيلْ</p>
+      </div>
+
+      <div class="about-signature">
+        <span class="about-sig-role">صانع الأرشيف</span>
+        <strong class="about-sig-name">جلال الأبرش (البحري) بن عبد الرحمن بن تركي بن عبد الرحمن بن أحمد بن طه بن عبادة</strong>
+      </div>
+    </article>
+
+    <div class="about-bottombar">
+      <button type="button" class="about-back-btn" id="closeAboutPageBtnBottom">← العودة إلى التطبيق</button>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  function styleAboutPage() {
+    var page = document.getElementById("aboutFullPage");
+    if (!page) return;
+
+    page.style.setProperty("display", "block", "important");
+    page.style.setProperty("position", "fixed", "important");
+    page.style.setProperty("top", "0", "important");
+    page.style.setProperty("right", "0", "important");
+    page.style.setProperty("bottom", "0", "important");
+    page.style.setProperty("left", "0", "important");
+    page.style.setProperty("width", "100vw", "important");
+    page.style.setProperty("height", "100vh", "important");
+    page.style.setProperty("z-index", "2147483647", "important");
+    page.style.setProperty("overflow-y", "auto", "important");
+    page.style.setProperty("-webkit-overflow-scrolling", "touch", "important");
+    page.style.setProperty("padding", "20px 14px 44px", "important");
+    page.style.setProperty("box-sizing", "border-box", "important");
+    page.style.setProperty("background-color", "#0e2e22", "important");
+    page.style.setProperty(
+      "background-image",
+      "radial-gradient(circle at 15% 12%, rgba(232, 201, 106, 0.28), transparent 45%), radial-gradient(circle at 88% 82%, rgba(201, 162, 39, 0.24), transparent 48%), linear-gradient(160deg, #0e2e22 0%, #153e2e 52%, #0b2118 100%)",
+      "important"
+    );
+    page.style.setProperty("color", "#111111", "important");
+
+    var letter = page.querySelector(".about-letter");
+    if (letter) {
+      letter.style.setProperty("background-color", "#faf4e4", "important");
+      letter.style.setProperty(
+        "background-image",
+        "radial-gradient(circle at top center, rgba(232, 201, 106, 0.25), transparent 58%), linear-gradient(180deg, #fdfaf0 0%, #f6eed8 100%)",
+        "important"
+      );
+      letter.style.setProperty("border", "1.5px solid #c9a227", "important");
+      letter.style.setProperty("border-radius", "22px", "important");
+      letter.style.setProperty("padding", "26px 20px", "important");
+      letter.style.setProperty("box-shadow", "0 22px 48px rgba(0, 0, 0, 0.45)", "important");
+      letter.style.setProperty("color", "#111111", "important");
+    }
+
+    var texts = page.querySelectorAll(".about-main-heading, .about-paragraph, .about-verse, .about-sig-name, .about-sig-role");
+    texts.forEach(function (el) {
+      el.style.setProperty("color", "#111111", "important");
+      el.style.setProperty("font-family", "'Amiri', serif", "important");
+    });
+  }
+
+  function initAboutModal() {
+    var openBtn = document.getElementById("openAboutPageBtn");
+    var closeTop = document.getElementById("closeAboutPageBtnTop");
+    var closeBottom = document.getElementById("closeAboutPageBtnBottom");
+    var page = document.getElementById("aboutFullPage");
+
+    if (!openBtn || !page) return;
+    if (openBtn.dataset.aboutBound === "1") return;
+    openBtn.dataset.aboutBound = "1";
+
+    function openAbout(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      page.hidden = false;
+      page.removeAttribute("hidden");
+      styleAboutPage();
+      page.scrollTop = 0;
+    }
+
+    function closeAbout(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      page.hidden = true;
+      page.setAttribute("hidden", "");
+      page.style.setProperty("display", "none", "important");
+    }
+
+    openBtn.addEventListener("click", openAbout, true);
+    if (closeTop) closeTop.addEventListener("click", closeAbout, true);
+    if (closeBottom) closeBottom.addEventListener("click", closeAbout, true);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAboutModal);
+  } else {
+    initAboutModal();
+  }
+})();
 </script>
 </body>
+
 </html>
