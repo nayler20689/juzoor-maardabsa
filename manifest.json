@@ -1,0 +1,23 @@
+{
+  "name": "جذور معردبسة - أرشيف الأنساب",
+  "short_name": "جذور معردبسة",
+  "description": "أرشيف أنساب طوائف وعائلات معردبسة من الجد إلى الحفيد",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0E2E22",
+  "theme_color": "#0E2E22",
+  "dir": "rtl",
+  "lang": "ar",
+  "icons": [
+    {
+      "src": "app-icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "app-icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

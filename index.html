@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>جذور معردبسة - أرشيف أنساب طوائف معردبسة</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,700;1,700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
+<meta name="theme-color" content="#0E2E22" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="جذور معردبسة" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="app-icon.png" />
+  <link rel="icon" type="image/png" href="app-icon.png" />
+  <meta property="og:title" content="جذور معردبسة - أرشيف أنساب الطوائف" />
+  <meta property="og:description" content="أرشيف أنساب طوائف وعائلات معردبسة من الجد إلى الحفيد" />
+  <meta property="og:image" content="https://juzoor-maardabsa.web.app/tree-gold.png" />
+  <meta property="og:type" content="website" />
+</head>
+<body>
+ <header class="jozour-header">
+  <div class="header-pattern"></div>
+  <div class="header-corner corner-right">✦</div>
+  <div class="header-corner corner-left">✦</div>
+
+ 
+
+  <div class="announcement-ticker" id="announcement-ticker" aria-live="polite">
+    <div class="ticker-track" id="ticker-track">
+      <span id="ticker-text">مرحباً بكم في أرشيف أنساب طوائف معردبسة من الجد إلى الحفيد</span>
+    </div>
+  </div>
+
+  <div class="gold-line"></div>
+</header>
+
+  <!-- بانر الصورة أو الفيديو المنشور من الإدارة للجميع -->
+  <section class="public-media-banner" id="public-media-banner" style="display: none;">
+    <div class="public-media-inner" id="public-media-content"></div>
+  </section>
+
+  <main class="container">
+    <!-- قسم عرض الشجرة -->
+    <section id="tree-view" class="tab-panel active">
+     
+      <div class="group-filter-bar" id="group-filter-bar">
+        <div class="filter-field">
+          <label for="filter-sect-select">الطائفة:</label>
+          <select id="filter-sect-select">
+            <option value="">كل الطوائف</option>
+          </select>
+        </div>
+        <div class="filter-field">
+          <label for="filter-family-select">العائلة:</label>
+          <select id="filter-family-select">
+            <option value="">كل العائلات</option>
+          </select>
+        </div>
+        <div class="filter-summary" id="filter-summary"></div>
+      </div>
+
+      <div class="overview-stats-strip">
+        <div class="overview-stat-card">
+          <span class="overview-icon" aria-hidden="true">👥</span>
+          <strong id="tree-stat-people">0</strong>
+          <span>عدد الأفراد</span>
+        </div>
+        <div class="overview-stat-card">
+          <span class="overview-icon" aria-hidden="true">🏡</span>
+          <strong id="tree-stat-families">0</strong>
+          <span>عدد العائلات</span>
+        </div>
+        <div class="overview-stat-card">
+          <span class="overview-icon" aria-hidden="true">🌿</span>
+          <strong id="tree-stat-generations">0</strong>
+          <span>أجيال الفرع</span>
+        </div>
+      </div>
+
+      <div class="lineage-bar" id="lineage-bar"></div>
+
+      <div class="tree-viewport" id="tree-viewport">
+        <div class="tree-section-header">
+          <span class="tree-section-title">🌿 الشجرة العائلية</span>
+          <span class="tree-section-hint">اضغط مرة لفتح الأبناء • اضغط ثانية للتسجيل</span>
+        </div>
+        <div class="tree-canvas" id="tree-canvas"></div>
+      </div>
+    </section>
+
+    <!-- قسم استمارة التسجيل -->
+    <section id="form-view" class="tab-panel">
+      <div class="form-card">
+        <h2>إضافة فرد جديد أو ربط سلالة</h2>
+        <p class="hint">يتم مطابقة الأسماء تلقائياً لمنع التكرار (مثل عبد الرحمن وعبدالرحمن) مع مراعاة الأب والنسب.</p>
+
+        <form id="person-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="sect-input">الطائفة *</label>
+              <input type="text" id="sect-input" list="sects-list" required />
+              <datalist id="sects-list"></datalist>
+            </div>
+
+            <div class="form-group">
+              <label for="family-input">العائلة / الفخذ *</label>
+              <input type="text" id="family-input" list="families-list" required />
+              <datalist id="families-list"></datalist>
+            </div>
+
+            <div class="form-group">
+              <label for="full-name">الاسم الثلاثي للشخص *</label>
+              <input type="text" id="full-name" required />
+              <small id="match-alert" class="match-alert"></small>
+            </div>
+
+            <div class="form-group">
+              <label for="birth-year">سنة / تاريخ الميلاد</label>
+              <input type="text" id="birth-year" />
+            </div>
+<div class="form-group">
+  <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+    <input type="checkbox" id="is-deceased-input" />
+    <span>متوفى</span>
+  </label>
+</div>
+<div class="form-group" id="death-year-group" style="display:none;">
+  <label>سنة الوفاة (اختياري)</label>
+  <input type="text" id="death-year-input" placeholder="مثال: 1995" />
+</div>
+            <div class="form-group">
+              <label for="father-name">اسم الأب الثلاثي *</label>
+              <input type="text" id="father-name" required />
+            </div>
+
+            <div class="form-group">
+              <label for="grandfather-name">اسم الجد الثلاثي *</label>
+              <input type="text" id="grandfather-name" required />
+              <small id="grand-alert" class="match-alert"></small>
+            </div>
+
+            <div class="form-group">
+              <label for="mother-name">اسم الأم الثلاثي (مخفي في الشجرة)</label>
+              <input type="text" id="mother-name" />
+            </div>
+
+            <div class="form-group">
+              <label for="mother-family">عائلة / طائفة الأم (لربط المصاهرة)</label>
+              <input type="text" id="mother-family" />
+            </div>
+
+            <div class="form-group full-width">
+              <label for="siblings-input">أسماء الإخوة (افصل بينهم بفاصلة ،)</label>
+              <input type="text" id="siblings-input" />
+            </div>
+
+            <div class="form-group full-width">
+              <label for="children-input">أسماء الأبناء (افصل بينهم بفاصلة ،)</label>
+              <input type="text" id="children-input" />
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">حفظ وربط في الشجرة</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- قسم السجل الجدولي -->
+    <section id="list-view" class="tab-panel">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>الاسم</th>
+              <th>الأب</th>
+              <th>الجد</th>
+              <th>العائلة</th>
+              <th>الطائفة</th>
+              <th>المواليد</th>
+              <th>إجراء</th>
+            </tr>
+          </thead>
+          <tbody id="records-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- قسم الإدارة -->
+    <section id="admin-view" class="tab-panel">
+      <div class="form-card admin-card">
+       <div class="admin-records-box" id="admin-records-box">
+  <h3>إدارة وحذف الأسماء المسجلة (للمشرف فقط)</h3>
+  <p class="hint">يظهر هنا كل اسم مسجّل مع زر حذف مستقل لحذف أي سجل زائد أو خاطئ.</p>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>الاسم</th>
+          <th>الأب</th>
+          <th>الجد</th>
+          <th>العائلة</th>
+          <th>حذف</th>
+        </tr>
+      </thead>
+      <tbody id="admin-records-tbody"></tbody>
+    </table>
+  </div>
+</div>
+        <h2>إدارة الأرشيف والنشر العام</h2>
+        <p class="hint">صلاحيات المشرف: تفعيل زر الحذف الفردي في السجل، ونشر إعلان متحرك أو صورة أو فيديو للجميع.</p>
+
+        <div class="admin-stats">
+          <div class="stat-box">
+            <span>إجمالي الأسماء المسجلة</span>
+            <strong id="admin-count">0</strong>
+          </div>
+          <div class="stat-box">
+            <span>عدد الطوائف</span>
+            <strong id="admin-sects-count">0</strong>
+          </div>
+          <div class="stat-box">
+            <span>عدد العائلات</span>
+            <strong id="admin-families-count">0</strong>
+          </div>
+        </div>
+
+        <form id="admin-broadcast-form" class="admin-broadcast-box">
+          <h3>نشر إعلان متحرك / صورة / فيديو للجميع</h3>
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="admin-ticker-input">نص الشريط المتحرك العلوي</label>
+              <input type="text" id="admin-ticker-input" placeholder="اكتب رسالة أو إعلاناً ليظهر في الشريط المتحرك..." />
+            </div>
+
+            <div class="form-group">
+              <label for="admin-media-type">نوع الوسائط المنشورة</label>
+              <select id="admin-media-type">
+                <option value="none">بدون صورة أو فيديو</option>
+                <option value="image">صورة</option>
+                <option value="video">فيديو</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="admin-media-url">رابط صورة أو فيديو (اختياري)</label>
+              <input type="url" id="admin-media-url" placeholder="https://..." />
+            </div>
+
+            <div class="form-group full-width">
+              <label for="admin-media-file">أو اختر ملف صورة / فيديو من الجهاز</label>
+              <input type="file" id="admin-media-file" accept="image/*,video/*" />
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">نشر للجميع</button>
+            <button type="button" id="clear-media-btn" class="btn-secondary">إخفاء الصورة / الفيديو</button>
+          </div>
+        </form>
+
+        <p id="admin-status" class="admin-status"></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- نافذة تفاصيل الشخص والتسجيل أو إضافة ولد أو طفل ميت -->
+  <div class="modal-backdrop" id="details-modal">
+    <div class="modal-box">
+      <button class="close-modal" id="close-modal">&times;</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+<nav class="bottom-nav">
+  <button class="h-btn bottom-btn active" data-tab="tree">🌳 الشجرة</button>
+  <button class="h-btn bottom-btn" data-tab="add">➕ إضافة</button>
+  <button class="h-btn bottom-btn" data-tab="records">📜 السجل (0)</button>
+  <button class="h-btn bottom-btn" data-tab="admin">⚙️ الإدارة</button>
+</nav>
+<script>
+  // تفعيل أزرار الشريط السفلي
+  document.querySelectorAll('.bottom-nav .bottom-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.dataset.tab;
+
+      // 1. شيل اللون الذهبي عن الكل وحطو على اللي انكبس
+      document.querySelectorAll('.bottom-nav .bottom-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // 2. كبس الزر القديم المخفي فوق بنفس الاسم حتى يشتغل الكود القديم متل ما هو
+      const oldBtn = document.querySelector('.header-btns .h-btn[data-tab="' + tab + '"]');
+      if (oldBtn) {
+        oldBtn.click();
+        return;
+      }
+
+      // 3. إذا ما لقى الزر القديم، شغّل التبويبات يدوياً
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      const panel = document.getElementById('tab-' + tab) || document.querySelector('[data-panel="' + tab + '"]');
+      if (panel) panel.classList.add('active');
+    });
+  });
+</script>
+<script src="app.js"></script>
+  <script>
+    (function () {
+      const tabMap = {
+        tree: "tree-view",
+        add: "form-view",
+        records: "list-view",
+        admin: "admin-view"
+      };
+
+      function resolveTabId(rawTab) {
+        if (!rawTab) return null;
+        if (document.getElementById(rawTab)) return rawTab;
+        return tabMap[rawTab] || null;
+      }
+
+      function activatePanel(targetId) {
+        if (!targetId) return;
+        if (targetId === "admin-view" && typeof ensureAdminAccess === "function") {
+          if (!ensureAdminAccess()) return;
+        }
+
+        document.querySelectorAll(".tab-panel").forEach((panel) => {
+          panel.classList.toggle("active", panel.id === targetId);
+        });
+
+        document.querySelectorAll(".bottom-nav .bottom-btn, .tab-btn").forEach((btn) => {
+          const mapped = resolveTabId(btn.dataset.tab);
+          btn.classList.toggle("active", mapped === targetId);
+        });
+      }
+
+      document.querySelectorAll(".bottom-nav .bottom-btn").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          const targetId = resolveTabId(btn.dataset.tab);
+          activatePanel(targetId);
+        });
+      });
+
+      const origRenderListsAndStats = window.renderListsAndStats;
+      if (typeof origRenderListsAndStats === "function") {
+        window.renderListsAndStats = function () {
+          origRenderListsAndStats();
+          const total = typeof people !== "undefined" && Array.isArray(people) ? people.length : 0;
+          const recBtn = document.querySelector('.bottom-nav .bottom-btn[data-tab="records"], .bottom-nav .bottom-btn[data-tab="list-view"]');
+          if (recBtn) {
+            recBtn.innerHTML = recBtn.innerHTML.replace(/\(\d+\)/, `(${total})`);
+          }
+        };
+        window.renderListsAndStats();
+      }
+    })();
+  
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAfzoMs-9DEeJ0DTOUaLOkL35wSfIuAR5A",
+    authDomain: "juzoor-maardabsa.firebaseapp.com",
+    projectId: "juzoor-maardabsa",
+    storageBucket: "juzoor-maardabsa.firebasestorage.app",
+    messagingSenderId: "295350151248",
+    appId: "1:295350151248:web:c4134204df18cd06b04955"
+  };
+  firebase.initializeApp(firebaseConfig);
+  window.juzoorDb = firebase.firestore();
+</script>
+</body>
+</html>
